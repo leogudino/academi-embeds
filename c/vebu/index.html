@@ -8,10 +8,10 @@
   PLANTILLA · Home de la plataforma Emi + revelado paso a paso de los momentos del curso.
   Para un cliente nuevo se cambia SOLO el bloque CONFIG de abajo: espacio de trabajo, textos,
   y por momento: nombre completo, color (identidad de marca: NO se modifica; va en la franja,
-  el borde de la casilla, el anillo del ícono y el borde de la etiqueta — nunca de fondo), ancla (casillas por default; {"menu": N, "seccion": "…"} para un ítem del menú
+  el borde de la etapa, el anillo del ícono y el borde de la etiqueta — nunca de fondo), ancla (etapas por default; {"menu": N, "seccion": "…"} para un ítem del menú
   lateral — "seccion" solo con un nombre verificado en la plataforma), texto (párrafos de la
   placa del curso) y etapas con contador. `curso.intro` / `curso.cierre` son los pasos 1 y 6
-  (sin momento; usan `curso.colorNeutro`). El diseño de la casilla es UI fija del
+  (sin momento; usan `curso.colorNeutro`). El diseño del recuadro de etapa es UI fija del
   producto (patterns-library §18): no tocar el CSS para "adaptarlo" a un cliente.
   Regla: nada de datos de prueba visibles — todo verosímil para el cliente (ver DECISIONES.md).
   "Emi" dentro de un nombre de momento se dibuja con el wordmark a color (fondo claro).
@@ -35,7 +35,7 @@
       "nombre": "Alista a Emi",
       "color": "#F5A623",
       "texto": [
-        "Este momento no está en las casillas: vive en la sección Atracción, en el menú de la izquierda.",
+        "Este momento no aparece entre las etapas del Home: vive en la sección Atracción, en el menú de la izquierda.",
         "Ahí publicas tus vacantes en redes sociales, bolsas de empleo, la página de carreras de Caffenio y los códigos QR de tus puntos de venta."
       ],
       "ancla": {
@@ -48,7 +48,7 @@
       "nombre": "Postula con Emi",
       "color": "#FF5947",
       "texto": [
-        "Cuando alguien se postula, entra a tu Home. Pre-filtro y Prueba Psicométrica son las dos primeras casillas."
+        "Cuando alguien se postula, entra a tu Home. Pre-filtro y Prueba Psicométrica son las dos primeras etapas."
       ],
       "etapas": [
         {
@@ -82,7 +82,7 @@
       "nombre": "Contrata desde Emi",
       "color": "#059669",
       "texto": [
-        "Las últimas cuatro casillas cierran el proceso: Asignar Requisición, Firma de Contrato, Alta y Contratados."
+        "Las últimas cuatro etapas cierran el proceso: Asignar Requisición, Firma de Contrato, Alta y Contratados."
       ],
       "etapas": [
         {
@@ -109,7 +109,7 @@
     "intro": {
       "titulo": "Tu Home en Emi",
       "texto": [
-        "Cada casilla es una etapa del proceso de Caffenio, y el número indica cuántas personas hay en ella en este momento.",
+        "Cada recuadro del Home es una etapa del proceso de Caffenio, y el número indica cuántas personas están en ella en este momento.",
         "Antes de avanzar, observa la pantalla: ¿dónde crees que empieza el recorrido de un candidato?"
       ]
     },
@@ -183,7 +183,7 @@
      pleno, fondo = pleno al 10% sobre blanco (tint(accent, .1)), texto siempre #262626, wordmark a color */
   .tag { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 10%, #FFFFFF); color: #262626; border: 3px solid var(--accent); font-size: 14px; line-height: 18px; font-weight: 700; white-space: nowrap; }
   .tag img { height: 14px; width: auto; display: block; }
-  /* etiqueta del grupo: anclada al borde superior de la primera casilla del momento */
+  /* etiqueta del grupo: anclada al borde superior de la primera etapa del momento */
   .card .tag { position: absolute; top: -13px; left: 12px; opacity: 0; transform: translateY(6px); transition: opacity var(--t), transform var(--t); z-index: 3; }
   .card.hi .tag { opacity: 1; transform: none; }
 
@@ -294,7 +294,7 @@
     (txt.match(/\bEmi\b/) ? `<img src="${WORDMARK}" alt="Emi">` : "");
   const tagHTML = m => `<span class="tag" style="--accent:${m.color}">${withWordmark(m.nombre)}</span>`;
 
-  // Casillas: se aplana, numeración corrida (la plataforma no agrupa por momento)
+  // Etapas: se aplana, numeración corrida (la plataforma no agrupa por momento)
   const grid = $("grid"), cards = [], groups = [];
   let n = 0;
   CFG.momentos.forEach((m, gi) => {
@@ -308,7 +308,7 @@
         <div class="label">${n}. ${e.nombre}</div>
         <div class="count">${e.count}</div>
         <div class="go" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></div>`;
-      if (cards.length === first) card.insertAdjacentHTML("beforeend", tagHTML(m)); // etiqueta en la 1ª casilla del grupo
+      if (cards.length === first) card.insertAdjacentHTML("beforeend", tagHTML(m)); // etiqueta en la 1ª etapa del grupo
       grid.appendChild(card); cards.push(card);
     });
     groups.push({ m, cards: cards.slice(first) });
