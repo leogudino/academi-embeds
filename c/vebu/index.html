@@ -9,7 +9,9 @@
   Para un cliente nuevo se cambia SOLO el bloque CONFIG de abajo: espacio de trabajo, textos,
   y por momento: nombre completo, color (identidad de marca: NO se modifica; va en la franja,
   el borde de la casilla, el anillo del ícono y el borde de la etiqueta — nunca de fondo), ancla (casillas por default; {"menu": N, "seccion": "…"} para un ítem del menú
-  lateral — "seccion" solo con un nombre verificado en la plataforma) y etapas con contador. El diseño de la casilla es UI fija del
+  lateral — "seccion" solo con un nombre verificado en la plataforma), texto (párrafos de la
+  placa del curso) y etapas con contador. `curso.intro` / `curso.cierre` son los pasos 1 y 6
+  (sin momento; usan `curso.colorNeutro`). El diseño de la casilla es UI fija del
   producto (patterns-library §18): no tocar el CSS para "adaptarlo" a un cliente.
   Regla: nada de datos de prueba visibles — todo verosímil para el cliente (ver DECISIONES.md).
   "Emi" dentro de un nombre de momento se dibuja con el wordmark a color (fondo claro).
@@ -32,6 +34,10 @@
     {
       "nombre": "Alista a Emi",
       "color": "#F5A623",
+      "texto": [
+        "Este momento no está en las casillas: vive en la sección Atracción, en el menú de la izquierda.",
+        "Ahí publicas tus vacantes en redes sociales, bolsas de empleo, la página de carreras de Caffenio y los códigos QR de tus puntos de venta."
+      ],
       "ancla": {
         "menu": 3,
         "seccion": "Atracción"
@@ -41,6 +47,9 @@
     {
       "nombre": "Postula con Emi",
       "color": "#FF5947",
+      "texto": [
+        "Cuando alguien se postula, entra a tu Home. Pre-filtro y Prueba Psicométrica son las dos primeras casillas."
+      ],
       "etapas": [
         {
           "nombre": "Pre-filtro",
@@ -55,6 +64,9 @@
     {
       "nombre": "Gestiona en Emi",
       "color": "#7C3AED",
+      "texto": [
+        "Entrevista, y Documentación y prueba médica. Aquí el proceso pasa por tus manos."
+      ],
       "etapas": [
         {
           "nombre": "Entrevista",
@@ -69,6 +81,9 @@
     {
       "nombre": "Contrata desde Emi",
       "color": "#059669",
+      "texto": [
+        "Las últimas cuatro casillas cierran el proceso: Asignar Requisición, Firma de Contrato, Alta y Contratados."
+      ],
       "etapas": [
         {
           "nombre": "Asignar Requisición",
@@ -88,7 +103,23 @@
         }
       ]
     }
-  ]
+  ],
+  "curso": {
+    "colorNeutro": "#3179FF",
+    "intro": {
+      "titulo": "Tu Home en Emi",
+      "texto": [
+        "Cada casilla es una etapa del proceso de Caffenio, y el número indica cuántas personas hay en ella en este momento.",
+        "Antes de avanzar, observa la pantalla: ¿dónde crees que empieza el recorrido de un candidato?"
+      ]
+    },
+    "cierre": {
+      "titulo": "Tu proceso completo",
+      "texto": [
+        "Estos son los cuatro momentos sobre tu pantalla real. Cada vez que abras Emi sabrás en qué parte del proceso está cada persona."
+      ]
+    }
+  }
 }
 </script>
 
@@ -122,7 +153,8 @@
 
   .content { flex: 1; min-width: 0; container-type: inline-size; }
   .greeting { height: 86px; display: flex; align-items: center; padding: 8px 0 0 23px; border-bottom: 1px solid var(--border); font-size: 24px; font-weight: 600; }
-  .stage { padding: 24px 17px 24px 23px; }
+  .stage { padding: 24px 17px 24px 23px; display: flex; flex-direction: column; gap: 20px; }
+  .workspace { flex: 1; min-width: 0; }
 
   .workspace { border: 1px solid var(--border); border-radius: var(--radius); background: var(--white); padding: 24px; }
   .ws-head { height: 28px; margin-bottom: 13px; display: flex; align-items: center; justify-content: space-between; }
@@ -165,14 +197,27 @@
   .callout.left .arrow { left: -15px; top: 50%; margin-top: -8px; border-right-color: var(--accent); }
   .callout.top .arrow { top: -15px; left: 14px; border-bottom-color: var(--accent); }
 
-  .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 20px; }
+  /* ---------- placa del curso — sistema de cards del video (MomentoCards.tsx):
+     fondo pleno al 10%, borde izquierdo 5px pleno, radio 13, título Lato 700 #262626 con wordmark ---------- */
+  .panel { order: -1; border-radius: 13px; border-left: 5px solid var(--accent); background: color-mix(in srgb, var(--accent) 10%, #FFFFFF); padding: 18px 22px 20px; color: #262626; transition: background-color var(--t), border-color var(--t); }
+  .panel-title { margin: 0 0 10px; font-size: 20px; line-height: 26px; font-weight: 700; display: flex; flex-wrap: wrap; align-items: center; gap: 0 .3em; }
+  .panel-title img { height: 19px; width: auto; display: block; }
+  .panel-body p { margin: 0 0 10px; font-size: 15px; line-height: 1.55; font-weight: 400; }
+  .panel-body p:last-child { margin-bottom: 0; }
+  .panel .legend { margin-top: 14px; }
+  .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 18px; }
   .btn { font-family: var(--font); font-size: 14px; font-weight: 700; color: var(--white); background: var(--blue); border: 0; border-radius: 6px; padding: 10px 18px; cursor: pointer; }
   .btn:hover { filter: brightness(.95); }
   .btn:focus-visible { outline: 3px solid #BFD3FF; outline-offset: 2px; }
   .step { font-size: 13px; color: var(--label); }
-  .legend { display: none; flex-wrap: wrap; gap: 8px 10px; width: 100%; }
+  .legend { display: none; flex-wrap: wrap; gap: 8px 10px; }
   .legend.show { display: flex; }
 
+  /* ancho: la placa va al costado derecho (fija al scroll) y el Home conserva sus columnas */
+  @container (min-width: 1040px) {
+    .stage { flex-direction: row; align-items: flex-start; }
+    .panel { order: 1; width: 320px; flex-shrink: 0; position: sticky; top: 24px; }
+  }
   /* recuadro angosto: 1 columna */
   @container (max-width: 700px) {
     .grid { grid-template-columns: 1fr; }
@@ -212,7 +257,16 @@
     </nav>
     <main class="content">
       <div class="greeting">Hola&nbsp;👋</div>
-      <div class="stage">
+      <div class="stage" id="stage">
+        <aside class="panel" id="panel" aria-live="polite">
+          <h2 class="panel-title" id="panelTitle"></h2>
+          <div class="panel-body" id="panelBody"></div>
+          <div class="legend" id="legend"></div>
+          <div class="controls">
+            <button class="btn" id="next" type="button"></button>
+            <span class="step" id="stepLabel"></span>
+          </div>
+        </aside>
         <section class="workspace" id="workspace">
           <div class="ws-head">
             <div class="name">
@@ -223,11 +277,6 @@
           </div>
           <div class="grid" id="grid"></div>
         </section>
-        <div class="controls">
-          <button class="btn" id="next" type="button"></button>
-          <span class="step" id="stepLabel"></span>
-          <div class="legend" id="legend" aria-live="polite"></div>
-        </div>
       </div>
     </main>
   </div>
@@ -241,9 +290,9 @@
   document.querySelectorAll("[data-ws]").forEach(el => el.textContent = CFG.workspace);
 
   // "Emi" dentro del nombre → wordmark a color canónico (con alt para lectores de pantalla)
-  const tagHTML = m => `<span class="tag" style="--accent:${m.color}">` +
-    m.nombre.split(/\bEmi\b/).map(t => t.trim()).filter(Boolean).map(t => `<span>${t}</span>`).join("") +
-    (m.nombre.match(/\bEmi\b/) ? `<img src="${WORDMARK}" alt="Emi">` : "") + `</span>`;
+  const withWordmark = txt => txt.split(/\bEmi\b/).map(t => t.trim()).filter(Boolean).map(t => `<span>${t}</span>`).join("") +
+    (txt.match(/\bEmi\b/) ? `<img src="${WORDMARK}" alt="Emi">` : "");
+  const tagHTML = m => `<span class="tag" style="--accent:${m.color}">${withWordmark(m.nombre)}</span>`;
 
   // Casillas: se aplana, numeración corrida (la plataforma no agrupa por momento)
   const grid = $("grid"), cards = [], groups = [];
@@ -269,8 +318,20 @@
   const legend = $("legend");
   legend.innerHTML = CFG.momentos.map(tagHTML).join("");
 
-  // Pasos: 0 = nada · 1..N = un momento por paso · N+1 = todos + leyenda
+  // Pasos: 0 = intro (Home limpio) · 1..N = un momento por paso · N+1 = cierre (todos + leyenda)
   const total = CFG.momentos.length;
+  const TOTAL_STEPS = total + 2;
+  // ?paso=N (1..6) abre directo en ese paso — para enlazar desde el curso
+  const pasoParam = parseInt(new URLSearchParams(location.search).get("paso") || "", 10);
+  const panel = $("panel");
+  function renderPanel(step) {
+    const active = step >= 1 && step <= total ? step - 1 : -1;
+    const src = active >= 0 ? { titulo: CFG.momentos[active].nombre, texto: CFG.momentos[active].texto, color: CFG.momentos[active].color }
+      : step === 0 ? { ...CFG.curso.intro, color: CFG.curso.colorNeutro } : { ...CFG.curso.cierre, color: CFG.curso.colorNeutro };
+    panel.style.setProperty("--accent", src.color);
+    $("panelTitle").innerHTML = withWordmark(src.titulo);
+    $("panelBody").innerHTML = (src.texto || []).map(t => `<p>${t}</p>`).join("");
+  }
   let step = 0;
   const callout = $("callout");
 
@@ -315,20 +376,25 @@
     burger.classList.toggle("hi", burgerHi);
     if (burgerHi) burger.style.setProperty("--accent", CFG.momentos[active].color);
     legend.classList.toggle("show", final);
+    renderPanel(step);
     $("next").textContent = final ? CFG.textos.reiniciar : CFG.textos.siguiente;
-    $("stepLabel").textContent = active >= 0 ? CFG.textos.paso.replace("{n}", active + 1).replace("{total}", total) : "";
+    $("stepLabel").textContent = CFG.textos.paso.replace("{n}", step + 1).replace("{total}", TOTAL_STEPS);
   }
   // Lleva la vista al elemento destacado. Solo scrollea ESTE documento (dentro de un iframe
   // no mueve la página que lo contiene, a diferencia de scrollIntoView).
   function reveal() {
     const active = step >= 1 && step <= total ? step - 1 : -1;
+    const sideBySide = getComputedStyle($("stage")).flexDirection === "row";
     let target = null;
-    if (active >= 0) { const m = CFG.momentos[active]; target = anchorFor(m) || (groups[active].cards[0] || null); }
-    const top = target ? target.getBoundingClientRect().top + scrollY - Math.max(24, (innerHeight - 300) / 2) : 0;
+    // apilado (placa arriba del Home): la vista va al texto; al costado (placa fija): va al elemento destacado
+    if (!sideBySide) target = panel;
+    else if (active >= 0) { const m = CFG.momentos[active]; target = anchorFor(m) || (groups[active].cards[0] || null); }
+    const top = target ? target.getBoundingClientRect().top + scrollY - (sideBySide ? Math.max(24, (innerHeight - 300) / 2) : 12) : 0;
     scrollTo({ top: Math.max(0, top), behavior: "smooth" });
   }
   $("next").addEventListener("click", () => { step = step === total + 1 ? 0 : step + 1; render(); reveal(); });
   addEventListener("resize", () => { if (callout.classList.contains("show")) render(); });
+  if (pasoParam >= 1 && pasoParam <= TOTAL_STEPS) step = pasoParam - 1;
   render();
 </script>
 </body>
