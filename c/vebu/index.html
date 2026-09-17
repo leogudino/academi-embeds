@@ -233,7 +233,7 @@
     .rail-item { left: 6px; width: 32px; height: 32px; }
     .greeting { display: none; }
     .stage { padding: 10px; gap: 10px; }
-    .panel { order: -1; padding: 8px 10px 10px; border-left-width: 4px; border-radius: 8px; min-height: var(--panel-h, auto); box-sizing: border-box; }
+    .panel { order: -1; padding: 8px 10px 10px; border-left-width: 4px; border-radius: 8px; }
     .panel-title { font-size: 20px; line-height: 25px; margin-bottom: 6px; }
     .panel-title img { height: 18px; }
     .panel-body p { font-size: 16px; line-height: 1.4; margin-bottom: 6px; }
@@ -397,21 +397,6 @@
     callout.classList.add("show");
   }
 
-  // Compacto: la placa reserva el alto del paso más largo, así el total no cambia entre pasos.
-  function reservePanelHeight() {
-    const compact = matchMedia("(max-width: 760px)").matches;
-    if (!compact) { panel.style.removeProperty("--panel-h"); return; }
-    const keep = step; panel.style.removeProperty("--panel-h");
-    let max = 0;
-    for (let s = 0; s < TOTAL_STEPS; s++) {
-      renderPanel(s); legend.classList.toggle("show", s === total + 1);
-      $("next").textContent = s === total + 1 ? CFG.textos.reiniciar : CFG.textos.siguiente;
-      $("stepLabel").textContent = CFG.textos.paso.replace("{n}", s + 1).replace("{total}", TOTAL_STEPS);
-      max = Math.max(max, panel.offsetHeight);
-    }
-    panel.style.setProperty("--panel-h", max + "px");
-    step = keep;
-  }
   function render() {
     const active = step >= 1 && step <= total ? step - 1 : -1;
     const final = step === total + 1;
@@ -454,10 +439,8 @@
   $("next").addEventListener("click", () => {
     step = step === total + 1 ? 0 : step + 1; render(); reveal();
   });
-  addEventListener("resize", () => { reservePanelHeight(); render(); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { reservePanelHeight(); render(); });
+  addEventListener("resize", () => render());
   if (pasoParam >= 1 && pasoParam <= TOTAL_STEPS) step = pasoParam - 1;
-  reservePanelHeight();
   render();
   // ?debug=1 — muestra el tamaño real del viewport (para calibrar el iframe de Innform)
   if (new URLSearchParams(location.search).get("debug") === "1") {
