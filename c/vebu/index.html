@@ -12,7 +12,9 @@
   lateral — "seccion" solo con un nombre verificado en la plataforma) y etapas con contador. El diseño de la casilla es UI fija del
   producto (patterns-library §18): no tocar el CSS para "adaptarlo" a un cliente.
   Regla: nada de datos de prueba visibles — todo verosímil para el cliente (ver DECISIONES.md).
-  "Emi" dentro de un nombre de momento se dibuja con el wordmark a color (fondo blanco).
+  "Emi" dentro de un nombre de momento se dibuja con el wordmark a color (fondo claro).
+  Sistema de color de las piezas del curso = el del video: pleno + claro (pleno al 10% sobre
+  blanco) del mismo momento, texto #262626.
   Uso: bloque "Iframe" de Innform → URL pública de esta página.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -145,8 +147,9 @@
   .burger { border-radius: 999px; transition: box-shadow var(--t); }
   .burger.hi { box-shadow: 0 0 0 6px var(--rail), 0 0 0 9px var(--accent), 0 0 0 15px color-mix(in srgb, var(--accent) 22%, transparent); }
 
-  /* etiqueta de momento: fondo blanco, texto #262626, wordmark a color; el color del momento va en el borde grueso */
-  .tag { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; background: #FFFFFF; color: #262626; border: 3px solid var(--accent); font-size: 14px; line-height: 18px; font-weight: 700; white-space: nowrap; }
+  /* etiqueta de momento — sistema de color del video (colors.ts / MomentoCards.tsx): borde en el color
+     pleno, fondo = pleno al 10% sobre blanco (tint(accent, .1)), texto siempre #262626, wordmark a color */
+  .tag { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 10%, #FFFFFF); color: #262626; border: 3px solid var(--accent); font-size: 14px; line-height: 18px; font-weight: 700; white-space: nowrap; }
   .tag img { height: 14px; width: auto; display: block; }
   /* etiqueta del grupo: anclada al borde superior de la primera casilla del momento */
   .card .tag { position: absolute; top: -13px; left: 12px; opacity: 0; transform: translateY(6px); transition: opacity var(--t), transform var(--t); z-index: 3; }
@@ -155,7 +158,7 @@
   /* cartel con flecha para anclas del menú (solo cuando el momento está activo) */
   .callout { position: absolute; z-index: 5; opacity: 0; pointer-events: none; transition: opacity var(--t), transform var(--t); transform: translateX(-6px); }
   .callout.show { opacity: 1; transform: none; }
-  .callout .box { display: inline-flex; flex-direction: column; gap: 3px; padding: 8px 12px; border-radius: 10px; background: #FFFFFF; color: #262626; border: 3px solid var(--accent); box-shadow: 0 10px 28px rgba(17,24,39,.18); }
+  .callout .box { display: inline-flex; flex-direction: column; gap: 3px; padding: 8px 12px; border-radius: 10px; background: color-mix(in srgb, var(--accent) 10%, #FFFFFF); color: #262626; border: 3px solid var(--accent); box-shadow: 0 10px 28px rgba(17,24,39,.18); }
   .callout .box .tag { padding: 0; border: 0; }
   .callout .box small { font-size: 12px; line-height: 14px; font-weight: 400; color: #4B5563; white-space: nowrap; }
   .callout .arrow { position: absolute; width: 0; height: 0; border: 8px solid transparent; }
